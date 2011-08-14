@@ -1,0 +1,5 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+   <adapter name="start" factory=".indexer.barcampevent_start"/>
+   <adapter name="end" factory=".indexer.barcampevent_end"/>
+</configure>
+
