@@ -19,6 +19,10 @@ BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
     atapi.StringField(
+        'speaker',
+        storage=atapi.AnnotationStorage(),
+    ),
+    atapi.StringField(
         'level',
         storage=atapi.AnnotationStorage(),
         widget=atapi.SelectionWidget(
@@ -35,7 +39,7 @@ BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                   default_method=DateTime,
                   widget = atapi.CalendarWidget(
                         description= '',
-                        label=u'Session Starts'
+                        label=u'Session Starts',
                         )),
 
     atapi.DateTimeField('endDate',
@@ -45,7 +49,7 @@ BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                   default_method=DateTime,
                   widget = atapi.CalendarWidget(
                         description = '',
-                        label=u'Session Ends'
+                        label=u'Session Ends',
                         )),
 
 
@@ -72,6 +76,7 @@ class BarcampSession(base.ATCTContent):
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+    speaker = atapi.ATFieldProperty('speaker')
     level = atapi.ATFieldProperty('level')
     startDate = atapi.ATFieldProperty('startDate')
     endDate = atapi.ATFieldProperty('endDate')

@@ -28,6 +28,13 @@
       name="base_view"
       />
 
+  <browser:page
+      for="*"
+      class=".eventview.BarcampSessionView"
+      permission="zope2.View"
+      template="templates/barcampsession.pt"
+      name="barcampsession_view"
+      />
 
   <!-- -*- extra stuff goes here -*- -->
 

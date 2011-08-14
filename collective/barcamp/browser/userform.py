@@ -17,7 +17,7 @@ from collective.barcamp.unrestrictor import unrestrictedExec
 class ISessionSubmissionForm(interface.Interface):
     title = schema.TextLine(title=u"Title")
     description = schema.Text(title=u"Description", required=True)
-    contact_name = schema.TextLine(title=u"Speaker", required=True)
+    speaker = schema.TextLine(title=u"Speaker", required=True)
     subject = schema.Text(
         title=u'Tags', 
         description=u'Enter one tag per line, multiple words allowed.'
@@ -61,6 +61,8 @@ class SessionSubmissionForm(form.Form):
         del data['subject']
         level = data['level']
         del data['level']
+        speaker = data['speaker']
+        del data['speaker']
 
         unrestrictedExec(
             typestool.constructContent,
@@ -74,6 +76,7 @@ class SessionSubmissionForm(form.Form):
         schema = content.Schema()
         schema['subject'].set(content, subject)
         schema['level'].set(content, level)
+        schema['speaker'].set(content, speaker)
         schema['startDate'].set(content, self.context.startDate)
         schema['endDate'].set(content, self.context.endDate)
         unrestrictedExec(
