@@ -14,10 +14,9 @@ from Products.ATContentTypes.content.event import ATEventSchema, ATEvent
 from collective.barcamp.interfaces import IBarcampSession
 from collective.barcamp.config import PROJECTNAME
 from DateTime import DateTime
-from Products.ATContentTypes.lib.calendarsupport import CalendarSupportMixin
 
 
-BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
+BarcampSessionSchema = ATEventSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
     atapi.StringField(
@@ -34,32 +33,10 @@ BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         vocabulary=['beginner', 'intermediate', 'advanced']
     ),
 
-    atapi.DateTimeField('startDate',
-                  required=False,
-                  searchable=False,
-                  storage=atapi.AnnotationStorage(),
-                  default_method=DateTime,
-                  widget = atapi.CalendarWidget(
-                        description= '',
-                        label=u'Session Starts',
-                        )),
-
-    atapi.DateTimeField('endDate',
-                  required=False,
-                  searchable=False,
-                  storage=atapi.AnnotationStorage(),
-                  default_method=DateTime,
-                  widget = atapi.CalendarWidget(
-                        description = '',
-                        label=u'Session Ends',
-                        )),
-
-
 ))
 
-BarcampSessionSchema['title'].storage = atapi.AnnotationStorage()
-BarcampSessionSchema['description'].storage = atapi.AnnotationStorage()
-
+BarcampSessionSchema['startDate'].widget.label=u'Session Starts'
+BarcampSessionSchema['endDate'].widget.label=u'Session Ends'
 
 # Set storage on fields copied from ATContentTypeSchema, making sure
 # they work well with the python bridge properties.
@@ -68,7 +45,7 @@ schemata.finalizeATCTSchema(BarcampSessionSchema, moveDiscussion=False)
 from cioppino.twothumbs.interfaces import ILoveThumbsDontYou
 
 
-class BarcampSession(base.ATCTContent, CalendarSupportMixin):
+class BarcampSession(ATEvent):
     """A Barcamp Session"""
     implements(IBarcampSession, ILoveThumbsDontYou)
 
@@ -76,12 +53,8 @@ class BarcampSession(base.ATCTContent, CalendarSupportMixin):
     schema = BarcampSessionSchema
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
-    title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
     speaker = atapi.ATFieldProperty('speaker')
     level = atapi.ATFieldProperty('level')
-    startDate = atapi.ATFieldProperty('startDate')
-    endDate = atapi.ATFieldProperty('endDate')
 
 
 atapi.registerType(BarcampSession, PROJECTNAME)
