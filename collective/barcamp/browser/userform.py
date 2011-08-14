@@ -56,9 +56,7 @@ class SessionSubmissionForm(form.Form):
             )
             self.context['sessions'].reindexObject()
         container = self.context['sessions']
-        count = len([i for i in container.keys() if identifier in i])
-        if count:
-            identifier = '%s-%s' % (identifier, count-1)
+        identifier = str(len(container.keys()) + 1)
         subject = list([i for i in data['subject'].split('\n') if i])
         del data['subject']
         level = data['level']
@@ -76,6 +74,8 @@ class SessionSubmissionForm(form.Form):
         schema = content.Schema()
         schema['subject'].set(content, subject)
         schema['level'].set(content, level)
+        schema['startDate'].set(content, self.context.startDate)
+        schema['endDate'].set(content, self.context.endDate)
         unrestrictedExec(
             wftool.doActionFor,
             container[identifier], 
@@ -136,7 +136,7 @@ class RegistrationForm(form.Form):
             )
             self.context['registrations'].reindexObject()
         container = self.context['registrations']
-        identifier = str(len(container.keys()))
+        identifier = str(len(container.keys()) + 1)
 
         unrestrictedExec(
             typestool.constructContent,
