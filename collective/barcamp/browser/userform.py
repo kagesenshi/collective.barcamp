@@ -58,11 +58,11 @@ class SessionSubmissionForm(form.Form):
             self.context['sessions'].reindexObject()
         container = self.context['sessions']
         identifier = str(len(container.keys()) + 1)
-        if data.has_key('subject'):
+        if data['subject']:
             subject = list([i for i in data['subject'].split('\n') if i])
-            del data['subject']
         else:
             subject = []
+        del data['subject']
 
         level = data['level']
         del data['level']
