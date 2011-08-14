@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.barcamp">
+
+  <include package="plone.app.contentmenu" />
+
+  <browser:page
+      for="collective.barcamp.interfaces.barcampevent.IBarcampEvent"
+      name="++register-session"
+      class=".userform.EventFormView"
+      permission="zope2.View"
+      />
+
+  <!-- -*- extra stuff goes here -*- -->
+
+</configure>
