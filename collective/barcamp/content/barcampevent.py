@@ -58,6 +58,12 @@ BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
                         label=u'Event Ends'
                         )),
 
+    atapi.StringField('location',
+                searchable=True,
+                widget = atapi.StringWidget(
+                    description = '',
+                    label = u'Event Location'
+                )),
 ))
 
 # Set storage on fields copied from ATFolderSchema, making sure
@@ -66,11 +72,14 @@ BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 BarcampEventSchema['title'].storage = atapi.AnnotationStorage()
 BarcampEventSchema['description'].storage = atapi.AnnotationStorage()
 
+
 schemata.finalizeATCTSchema(
     BarcampEventSchema,
     folderish=True,
     moveDiscussion=False
 )
+BarcampEventSchema.changeSchemataForField('location', 'default')
+BarcampEventSchema.moveField('location', before='startDate')
 
 
 class BarcampEvent(folder.ATFolder):
