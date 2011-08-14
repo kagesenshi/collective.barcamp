@@ -4,6 +4,7 @@ from AccessControl import ClassSecurityInfo, getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import nobody
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
+from zope.app.component.hooks import getSite
 
 class UnrestrictedUser(BaseUnrestrictedUser):
     """Unrestricted user that still has an id.
@@ -65,3 +66,6 @@ def execute_under_special_role(portal, role, function, *args, **kwargs):
         # Restore the old security manager
         setSecurityManager(sm)
 
+def unrestrictedExec(function, *args, **kwargs):
+    site = getSite()
+    return execute_under_special_role(site, 'Manager', function, *args, **kwargs)

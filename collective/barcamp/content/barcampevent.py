@@ -16,6 +16,24 @@ BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
 
+    atapi.TextField('text',
+        required=False,
+        searchable=True,
+        storage = atapi.AnnotationStorage(),
+        allowable_content_types=(
+            'text/plain', 'text/structured', 'text/html',
+            'application/msword',
+        ),
+        validators = ('isTidyHtmlWithCleanup',),
+        #validators = ('isTidyHtml',),
+        default_output_type = 'text/html',
+        widget = atapi.RichWidget(
+            description = '',
+            label = u'Body Text',
+            rows = 25,
+            allow_file_upload = False
+        )
+    ),
 ))
 
 # Set storage on fields copied from ATFolderSchema, making sure
@@ -40,6 +58,7 @@ class BarcampEvent(folder.ATFolder):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+    text = atapi.ATFieldProperty('text')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 

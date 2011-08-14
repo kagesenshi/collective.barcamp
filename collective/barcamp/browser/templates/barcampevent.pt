@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+<head>
+   <metal:css fill-slot="style_slot">
+      <style>
+         #barcamp-register-buttons {
+            float:right;
+         }
+         .barcamp-register-button {
+            border: 1px #ccc solid;
+            width: 200px;
+            height: 20px;
+            display:block;
+            font-weight:bold;
+            text-align:center;
+            vertical-align:middle;
+            margin: 5px;
+         }
+      </style>
+   </metal:css>
+</head>
+<body>
+  <div metal:fill-slot="content-core">
+      <div id="barcamp-register-buttons">
+      <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register">
+         Register
+      </a>
+      <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register-session">
+         Submit a Session
+      </a>
+      </div>
+      <div tal:content="structure context/text"></div>
+  </div>
+</body>
+</html>

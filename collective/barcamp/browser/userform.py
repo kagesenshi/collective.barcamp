@@ -12,9 +12,9 @@ LEVEL_VOCAB = SimpleVocabulary([
     SimpleTerm(value=u'advanced', title=u'Advanced')
 ])
 
-from collective.barcamp.unrestrictor import execute_under_special_role
+from collective.barcamp.unrestrictor import unrestrictedExec
 
-class IEventForm(interface.Interface):
+class ISessionSubmissionForm(interface.Interface):
     title = schema.TextLine(title=u"Title")
     description = schema.Text(title=u"Description", required=True)
     contact_name = schema.TextLine(title=u"Speaker", required=True)
@@ -27,10 +27,10 @@ class IEventForm(interface.Interface):
         vocabulary=LEVEL_VOCAB
     )
     
-class EventForm(form.Form):
-    fields = field.Fields(IEventForm)
+class SessionSubmissionForm(form.Form):
+    fields = field.Fields(ISessionSubmissionForm)
     ignoreContext = True # don't use context to get widget data
-    label = u"Add a session"
+    label = u"Register a session"
 
     @button.buttonAndHandler(u'Submit')
     def handleApply(self, action):
@@ -39,13 +39,21 @@ class EventForm(form.Form):
         wftool = getToolByName(self.context, 'portal_workflow')
         identifier = queryUtility(IIDNormalizer).normalize(data['title'])
         if not self.context.has_key('sessions'):
-            typestool.constructContent(
+            unrestrictedExec(
+                typestool.constructContent,
                 type_name='Folder',
                 container=self.context,
                 id='sessions'
             )
-            self.context['sessions'].setTitle('Sessions')
-            wftool.doActionFor(container, 'publish')
+            unrestrictedExec(
+                self.context['sessions'].setTitle,
+                'Sessions'
+            )
+            unrestrictedExec(
+                wftool.doActionFor,
+                self.context['sessions'],
+                'publish'
+            )
         container = self.context['sessions']
         count = len([i for i in container.keys() if identifier in i])
         if count:
@@ -55,9 +63,7 @@ class EventForm(form.Form):
         level = data['level']
         del data['level']
 
-        execute_under_special_role(
-            self.context,
-            'Manager',
+        unrestrictedExec(
             typestool.constructContent,
             type_name="BarcampSession",
             container=container,
@@ -69,13 +75,72 @@ class EventForm(form.Form):
         schema = content.Schema()
         schema['subject'].set(content, subject)
         schema['level'].set(content, level)
-        execute_under_special_role(
-            self.context,
-            'Manager',
+        unrestrictedExec(
             wftool.doActionFor,
             container[identifier], 
             'publish'
         )
         self.request.response.redirect(content.absolute_url())
 
-EventFormView = wrap_form(EventForm)
+SessionSubmissionView = wrap_form(SessionSubmissionForm)
+
+
+class IRegistrationForm(interface.Interface):
+    title = schema.TextLine(title=u"Full name")
+    email = schema.TextLine(
+        title=u"Email address",
+        description=(u"We will not publish this." +
+                    "We collect this to send confirmed details" +
+                    " and a reminder just before the camp.")
+    )
+    description = schema.Text(
+        title=u"Short Bio", 
+        description=(u"Where you're from, where you work " +
+                    "/ study, brief self-description"),
+        required=True
+    )
+    online_presence = schema.TextLine(
+        title=u'Online presence',
+        description=u'URL to blog / website / Google+ / Twitter / Facebook / etc',
+        required=False
+    )
+
+class RegistrationForm(form.Form):
+    fields = field.Fields(IRegistrationForm)
+    ignoreContext = True # don't use context to get widget data
+    label = u"Register"
+
+    @button.buttonAndHandler(u'Register')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        typestool = getToolByName(self.context, 'portal_types')
+        wftool = getToolByName(self.context, 'portal_workflow')
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        if not self.context.has_key('registrations'):
+            unrestrictedExec(
+                typestool.constructContent,
+                type_name='Folder',
+                container=self.context,
+                id='registrations'
+            )
+            unrestrictedExec(
+                self.context['registrations'].setTitle,
+                'Registrations'
+            )
+        container = self.context['registrations']
+        identifier = str(len(container.keys()))
+
+        unrestrictedExec(
+            typestool.constructContent,
+            type_name="BarcampParticipant",
+            container=container,
+            id=identifier,
+            **data
+        )
+        plone_utils.addPortalMessage(
+            'Thank you for your submission. You are now registered',
+            'info'
+        )
+        self.request.response.redirect(self.context.absolute_url())
+
+RegistrationView = wrap_form(RegistrationForm)

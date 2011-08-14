@@ -6,6 +6,12 @@
   <!-- configure your content components here -->
   
   <!-- -*- extra stuff goes here -*- -->
+  <class class=".barcampparticipant.BarcampParticipant">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IBarcampParticipant"
+        />
+  </class>
   <class class=".barcampsession.BarcampSession">
     <require
         permission="zope2.View"

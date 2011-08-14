@@ -8,9 +8,26 @@
   <browser:page
       for="collective.barcamp.interfaces.barcampevent.IBarcampEvent"
       name="++register-session"
-      class=".userform.EventFormView"
+      class=".userform.SessionSubmissionView"
       permission="zope2.View"
       />
+
+  <browser:page
+      for="collective.barcamp.interfaces.barcampevent.IBarcampEvent"
+      name="++register"
+      class=".userform.RegistrationView"
+      permission="zope2.View"
+      />
+
+
+  <browser:page
+      for="collective.barcamp.interfaces.barcampevent.IBarcampEvent"
+      class=".eventview.BarcampEventView"
+      permission="zope2.View"
+      template="templates/barcampevent.pt"
+      name="base_view"
+      />
+
 
   <!-- -*- extra stuff goes here -*- -->
 
