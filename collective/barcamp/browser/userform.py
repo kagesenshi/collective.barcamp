@@ -12,6 +12,13 @@ LEVEL_VOCAB = SimpleVocabulary([
     SimpleTerm(value=u'advanced', title=u'Advanced')
 ])
 
+STYPE_VOCAB = SimpleVocabulary([
+    SimpleTerm(value=u'talk', title=u'Talk'),
+    SimpleTerm(value=u'hackfest', title=u'Hackfest'),
+    SimpleTerm(value=u'workshop', title=u'Workshop')
+])
+
+
 from collective.barcamp.unrestrictor import unrestrictedExec
 
 class ISessionSubmissionForm(interface.Interface):
@@ -26,6 +33,10 @@ class ISessionSubmissionForm(interface.Interface):
     level = schema.Choice(
         title=u'Level',
         vocabulary=LEVEL_VOCAB
+    )
+    session_type = schema.Choice(
+        title=u'Session Type',
+        vocabulary=STYPE_VOCAB
     )
     
 class SessionSubmissionForm(form.Form):
@@ -68,6 +79,8 @@ class SessionSubmissionForm(form.Form):
         del data['level']
         speaker = data['speaker']
         del data['speaker']
+        session_type = data['session_type']
+        del data['session_type']
 
         unrestrictedExec(
             typestool.constructContent,
@@ -82,6 +95,7 @@ class SessionSubmissionForm(form.Form):
         schema['subject'].set(content, subject)
         schema['level'].set(content, level)
         schema['speaker'].set(content, speaker)
+        schema['session_type'].set(content, session_type)
         schema['startDate'].set(content, self.context.startDate)
         schema['endDate'].set(content, self.context.endDate)
         unrestrictedExec(

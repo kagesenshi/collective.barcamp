@@ -10,7 +10,9 @@
   <div metal:fill-slot="content-core">
       <metal:macro define-macro="content-core">
         <b>Speaker:</b> <tal:r replace="context/speaker"/><br/>
-        <b>Level:</b> <tal:r replace="context/level"/>
+        <b>Session Type:</b> <tal:r
+        replace="context/session_type|nothing"/><br/>
+        <b>Level:</b> <tal:r replace="context/level"/><br/>
       </metal:macro>
   </div>
 </body>

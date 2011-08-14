@@ -32,6 +32,15 @@ BarcampSessionSchema = ATEventSchema.copy() + atapi.Schema((
         ),
         vocabulary=['beginner', 'intermediate', 'advanced']
     ),
+    atapi.StringField(
+        'session_type',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.SelectionWidget(
+            format='select',
+            label=u'Session Type',
+        ),
+        vocabulary=['talk', 'hackfest', 'workshop']
+    ),
 
 ))
 
@@ -55,6 +64,7 @@ class BarcampSession(ATEvent):
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
     speaker = atapi.ATFieldProperty('speaker')
     level = atapi.ATFieldProperty('level')
+    session_type = atapi.ATFieldProperty('session_type')
 
 
 atapi.registerType(BarcampSession, PROJECTNAME)
