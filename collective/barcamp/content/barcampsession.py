@@ -14,6 +14,8 @@ from Products.ATContentTypes.content.event import ATEventSchema, ATEvent
 from collective.barcamp.interfaces import IBarcampSession
 from collective.barcamp.config import PROJECTNAME
 from DateTime import DateTime
+from Products.ATContentTypes.lib.calendarsupport import CalendarSupportMixin
+
 
 BarcampSessionSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
@@ -66,7 +68,7 @@ schemata.finalizeATCTSchema(BarcampSessionSchema, moveDiscussion=False)
 from cioppino.twothumbs.interfaces import ILoveThumbsDontYou
 
 
-class BarcampSession(base.ATCTContent):
+class BarcampSession(base.ATCTContent, CalendarSupportMixin):
     """A Barcamp Session"""
     implements(IBarcampSession, ILoveThumbsDontYou)
 
