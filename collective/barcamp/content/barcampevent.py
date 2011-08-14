@@ -11,6 +11,9 @@ from Products.ATContentTypes.content import schemata
 
 from collective.barcamp.interfaces import IBarcampEvent
 from collective.barcamp.config import PROJECTNAME
+from DateTime import DateTime
+
+from Products.CMFCore.permissions import ModifyPortalContent, View
 
 BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
@@ -34,6 +37,27 @@ BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
             allow_file_upload = False
         )
     ),
+
+    atapi.DateTimeField('startDate',
+                  required=True,
+                  searchable=False,
+                  storage=atapi.AnnotationStorage(),
+                  default_method=DateTime,
+                  widget = atapi.CalendarWidget(
+                        description= '',
+                        label=u'Event Starts'
+                        )),
+
+    atapi.DateTimeField('endDate',
+                  required=True,
+                  searchable=False,
+                  storage=atapi.AnnotationStorage(),
+                  default_method=DateTime,
+                  widget = atapi.CalendarWidget(
+                        description = '',
+                        label=u'Event Ends'
+                        )),
+
 ))
 
 # Set storage on fields copied from ATFolderSchema, making sure
@@ -59,6 +83,8 @@ class BarcampEvent(folder.ATFolder):
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
     text = atapi.ATFieldProperty('text')
+    startDate = atapi.ATFieldProperty('startDate')
+    endDate = atapi.ATFieldProperty('endDate')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 
