@@ -54,6 +54,7 @@ class SessionSubmissionForm(form.Form):
                 self.context['sessions'],
                 'publish'
             )
+            self.context['sessions'].reindexObject()
         container = self.context['sessions']
         count = len([i for i in container.keys() if identifier in i])
         if count:
@@ -80,6 +81,7 @@ class SessionSubmissionForm(form.Form):
             container[identifier], 
             'publish'
         )
+        content.reindexObject()
         self.request.response.redirect(content.absolute_url())
 
 SessionSubmissionView = wrap_form(SessionSubmissionForm)
@@ -127,6 +129,12 @@ class RegistrationForm(form.Form):
                 self.context['registrations'].setTitle,
                 'Registrations'
             )
+            cschema = self.context['registrations'].Schema()
+            cschema['excludeFromNav'].set(
+                self.context['registrations'],
+                True
+            )
+            self.context['registrations'].reindexObject()
         container = self.context['registrations']
         identifier = str(len(container.keys()))
 

@@ -7,7 +7,7 @@
 <head>
    <metal:css fill-slot="style_slot">
       <style>
-         #barcamp-register-buttons {
+         #barcamp-sidebar {
             float:right;
          }
          .barcamp-register-button {
@@ -25,13 +25,25 @@
 </head>
 <body>
   <div metal:fill-slot="content-core">
-      <div id="barcamp-register-buttons">
-      <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register">
-         Register
-      </a>
-      <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register-session">
-         Submit a Session
-      </a>
+      <div id="barcamp-sidebar">
+          <div id="barcamp-register-buttons">
+          <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register">
+             Register
+          </a>
+          <a class="barcamp-register-button" tal:attributes="href string:${context/absolute_url}/++register-session">
+             Submit a Session
+          </a>
+          </div>
+          <div id="barcamp-locationinfo">
+             <dl>
+                <dt>Location</dt>
+                <dd tal:content="context/location"></dd>
+                <dt>From</dt>
+                <dd><tal:r replace="context/startDate"/></dd>
+                <dt>To</dt>
+                <dd><tal:r replace="context/endDate"/></dd>
+             </dl>
+          </div>
       </div>
       <div tal:content="structure context/text"></div>
   </div>
