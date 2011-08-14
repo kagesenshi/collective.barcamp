@@ -58,11 +58,12 @@ BarcampEventSchema = folder.ATFolderSchema.copy() + atapi.Schema((
                         label=u'Event Ends'
                         )),
 
-    atapi.StringField('location',
+    atapi.StringField('location_url',
                 searchable=True,
+                storage=atapi.AnnotationStorage(),
                 widget = atapi.StringWidget(
                     description = '',
-                    label = u'Event Location'
+                    label = u'URL link to location (website/map)'
                 )),
 ))
 
@@ -80,6 +81,7 @@ schemata.finalizeATCTSchema(
 
 BarcampEventSchema.changeSchemataForField('location', 'default')
 BarcampEventSchema.moveField('location', before='startDate')
+BarcampEventSchema.moveField('location_url', after='location')
 
 
 class BarcampEvent(folder.ATFolder):
@@ -94,6 +96,7 @@ class BarcampEvent(folder.ATFolder):
     text = atapi.ATFieldProperty('text')
     startDate = atapi.ATFieldProperty('startDate')
     endDate = atapi.ATFieldProperty('endDate')
+    location_url = atapi.ATFieldProperty('location_url')
 
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
 

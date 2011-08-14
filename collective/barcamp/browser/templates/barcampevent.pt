@@ -37,7 +37,13 @@
           <div id="barcamp-locationinfo">
              <dl>
                 <dt>Location</dt>
-                <dd tal:content="context/location"></dd>
+                <dd>
+                     <tal:r replace="context/location"/> 
+                     <tal:r condition="context/location_url">
+                        (<a tal:attributes="href context/location_url">
+                           Details/Map</a>)
+                     </tal:r>
+                </dd>
                 <dt>From</dt>
                 <dd><tal:r replace="context/startDate"/></dd>
                 <dt>To</dt>
