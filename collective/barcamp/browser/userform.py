@@ -20,7 +20,8 @@ class ISessionSubmissionForm(interface.Interface):
     speaker = schema.TextLine(title=u"Speaker", required=True)
     subject = schema.Text(
         title=u'Tags', 
-        description=u'Enter one tag per line, multiple words allowed.'
+        description=u'Enter one tag per line, multiple words allowed.',
+        required=False
     )
     level = schema.Choice(
         title=u'Level',
@@ -57,8 +58,12 @@ class SessionSubmissionForm(form.Form):
             self.context['sessions'].reindexObject()
         container = self.context['sessions']
         identifier = str(len(container.keys()) + 1)
-        subject = list([i for i in data['subject'].split('\n') if i])
-        del data['subject']
+        if data.has_key('subject'):
+            subject = list([i for i in data['subject'].split('\n') if i])
+            del data['subject']
+        else:
+            subject = []
+
         level = data['level']
         del data['level']
         speaker = data['speaker']
