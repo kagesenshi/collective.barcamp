@@ -39,7 +39,7 @@ BarcampSessionSchema = ATEventSchema.copy() + atapi.Schema((
             format='select',
             label=u'Session Type',
         ),
-        vocabulary=['talk', 'hackfest', 'workshop']
+        vocabulary=['talk', 'hackfest', 'workshop', 'discussion']
     ),
 
 ))

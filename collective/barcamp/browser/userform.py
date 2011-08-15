@@ -15,7 +15,8 @@ LEVEL_VOCAB = SimpleVocabulary([
 STYPE_VOCAB = SimpleVocabulary([
     SimpleTerm(value=u'talk', title=u'Talk'),
     SimpleTerm(value=u'hackfest', title=u'Hackfest'),
-    SimpleTerm(value=u'workshop', title=u'Workshop')
+    SimpleTerm(value=u'workshop', title=u'Workshop'),
+    SimpleTerm(value=u'discussion', title=u'Discussion')
 ])
 
 
