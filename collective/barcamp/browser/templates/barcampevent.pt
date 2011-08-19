@@ -45,9 +45,9 @@
                      </tal:r>
                 </dd>
                 <dt>From</dt>
-                <dd><tal:r replace="context/startDate"/></dd>
+                <dd><tal:r replace="python:context.startDate.strftime('%A, %B %d, %Y %T')"/></dd>
                 <dt>To</dt>
-                <dd><tal:r replace="context/endDate"/></dd>
+                <dd><tal:r replace="python:context.endDate.strftime('%A, %B %d, %Y %T')"/></dd>
              </dl>
           </div>
       </div>
