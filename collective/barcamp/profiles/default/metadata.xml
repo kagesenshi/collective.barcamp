@@ -3,6 +3,5 @@
   <version>1000</version>
   <dependencies>
     <dependency>profile-cioppino.twothumbs:default</dependency>
-    <dependency>profile-Solgema.fullcalendar:default</dependency>
   </dependencies>
 </metadata>
