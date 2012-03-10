@@ -38,8 +38,8 @@
              <dl>
                 <dt>Location</dt>
                 <dd>
-                     <tal:r replace="context/location"/> 
-                     <tal:r condition="context/location_url">
+                     <tal:r replace="context/location|nothing"/> 
+                     <tal:r condition="context/location_url|nothing">
                         (<a tal:attributes="href context/location_url">
                            Details/Map</a>)
                      </tal:r>
