@@ -56,7 +56,9 @@ setup(name='collective.barcamp',
       zip_safe=False,
       install_requires=['setuptools',
                         'Plone',
-                        'plone.z3cform'
+                        'plone.z3cform',
+                        'collective.js.fullcalendar',
+                        'cioppino.twothumbs'
                         # -*- Extra requirements: -*-
                         ],
       tests_require=tests_require,
